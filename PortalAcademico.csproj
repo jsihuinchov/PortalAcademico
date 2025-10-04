@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-PortalAcademico-dad4ed20-fe78-442a-845e-cc8c6357fe52</UserSecretsId>
+    <UserSecretsId>aspnet-PortalAcademico-3f581ddf-ec76-48b8-b21f-cd2cfc83856c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

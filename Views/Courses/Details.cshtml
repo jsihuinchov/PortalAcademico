@@ -1,0 +1,67 @@
+@model PortalAcademico.Models.Curso
+
+@{
+    ViewData["Title"] = "Detalles del Curso";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2>@Model.Codigo - @Model.Nombre</h2>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Código:</dt>
+                    <dd class="col-sm-8">@Model.Codigo</dd>
+
+                    <dt class="col-sm-4">Nombre:</dt>
+                    <dd class="col-sm-8">@Model.Nombre</dd>
+
+                    <dt class="col-sm-4">Créditos:</dt>
+                    <dd class="col-sm-8">@Model.Creditos</dd>
+
+                    <dt class="col-sm-4">Cupo Máximo:</dt>
+                    <dd class="col-sm-8">@Model.CupoMaximo estudiantes</dd>
+
+                    <dt class="col-sm-4">Horario:</dt>
+                    <dd class="col-sm-8">@Model.HorarioInicio.ToString(@"hh\:mm") - @Model.HorarioFin.ToString(@"hh\:mm")</dd>
+
+                    <dt class="col-sm-4">Estado:</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.Activo)
+                        {
+                            <span class="badge bg-success">Activo</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Inactivo</span>
+                        }
+                    </dd>
+                </dl>
+            </div>
+            <div class="card-footer">
+                <a href="@Url.Action("Index")" class="btn btn-secondary">Volver al Catálogo</a>
+                
+                <!-- Botón Inscribirse - Solo muestra si el curso está activo -->
+                @if (Model.Activo)
+                {
+                    <button class="btn btn-primary" onclick="inscribirse(@Model.Id)">
+                        Inscribirse
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function inscribirse(cursoId) {
+            if (confirm('¿Estás seguro de que quieres inscribirte en este curso?')) {
+                // Aquí implementaremos la inscripción en la Pregunta 3
+                alert('Funcionalidad de inscripción se implementará en la siguiente pregunta. Curso ID: ' + cursoId);
+            }
+        }
+    </script>
+}
