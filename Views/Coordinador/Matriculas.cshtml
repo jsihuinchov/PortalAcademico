@@ -1,0 +1,100 @@
+@model PortalAcademico.Models.Curso
+
+@{
+    ViewData["Title"] = "Matrículas del Curso";
+}
+
+<h1>Matrículas del Curso: @Model.Codigo - @Model.Nombre</h1>
+
+<!-- DEBUG TEMPORAL -->
+<div class="alert alert-info">
+    <strong>DEBUG:</strong> 
+    Curso: @Model.Nombre | 
+    Matrículas: @(Model.Matriculas?.Count ?? 0)
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Información del Curso</h5>
+        <p>
+            <strong>Créditos:</strong> @Model.Creditos | 
+            <strong>Cupo:</strong> @Model.CupoMaximo | 
+            <strong>Horario:</strong> @Model.HorarioInicio.ToString(@"hh\:mm") - @Model.HorarioFin.ToString(@"hh\:mm")
+        </p>
+    </div>
+</div>
+
+@if (Model.Matriculas != null && Model.Matriculas.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Estudiante</th>
+                    <th>Email</th>
+                    <th>Fecha de Registro</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var matricula in Model.Matriculas)
+                {
+                    <tr>
+                        <td>@(matricula.Usuario?.UserName ?? "N/A")</td>
+                        <td>@(matricula.Usuario?.Email ?? "N/A")</td>
+                        <td>@matricula.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            @switch (matricula.Estado)
+                            {
+                                case EstadoMatricula.Pendiente:
+                                    <span class="badge bg-warning">Pendiente</span>
+                                    break;
+                                case EstadoMatricula.Confirmada:
+                                    <span class="badge bg-success">Confirmada</span>
+                                    break;
+                                case EstadoMatricula.Cancelada:
+                                    <span class="badge bg-danger">Cancelada</span>
+                                    break;
+                            }
+                        </td>
+                        <td>
+                            @if (matricula.Estado == EstadoMatricula.Pendiente)
+                            {
+                                <form asp-action="ConfirmarMatricula" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@matricula.Id" />
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-success btn-sm">Confirmar</button>
+                                </form>
+                                <form asp-action="CancelarMatricula" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@matricula.Id" />
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
+                                </form>
+                            }
+                            else if (matricula.Estado == EstadoMatricula.Confirmada)
+                            {
+                                <span class="text-success">✅ Confirmada</span>
+                            }
+                            else
+                            {
+                                <span class="text-danger">❌ Cancelada</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        <h4>No hay matrículas registradas para este curso.</h4>
+        <p class="mb-0">DEBUG: Model.Matriculas es null o vacío</p>
+    </div>
+}
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Volver al Panel</a>
+</div>
