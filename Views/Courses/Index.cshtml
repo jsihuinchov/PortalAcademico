@@ -1,0 +1,63 @@
+@model IEnumerable<PortalAcademico.Models.Curso>
+
+@{
+    ViewData["Title"] = "Catálogo de Cursos";
+}
+
+<h1>Catálogo de Cursos</h1>
+
+<!-- Formulario de Filtros -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Filtros</h5>
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <label for="searchNombre" class="form-label">Nombre o Código</label>
+                <input type="text" class="form-control" id="searchNombre" name="searchNombre" 
+                       value="@ViewData["SearchNombre"]" placeholder="Buscar...">
+            </div>
+            <div class="col-md-3">
+                <label for="creditosMin" class="form-label">Créditos Mín</label>
+                <input type="number" class="form-control" id="creditosMin" name="creditosMin" 
+                       value="@ViewData["CreditosMin"]" min="1" max="10">
+            </div>
+            <div class="col-md-3">
+                <label for="creditosMax" class="form-label">Créditos Máx</label>
+                <input type="number" class="form-control" id="creditosMax" name="creditosMax" 
+                       value="@ViewData["CreditosMax"]" min="1" max="10">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Lista de Cursos -->
+<div class="row">
+    @foreach (var curso in Model)
+    {
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">@curso.Codigo - @curso.Nombre</h5>
+                    <p class="card-text">
+                        <strong>Créditos:</strong> @curso.Creditos<br>
+                        <strong>Cupo:</strong> @curso.CupoMaximo estudiantes<br>
+                        <strong>Horario:</strong> @curso.HorarioInicio.ToString(@"hh\:mm") - @curso.HorarioFin.ToString(@"hh\:mm")
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="@Url.Action("Details", new { id = curso.Id })" class="btn btn-success btn-sm">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning text-center">
+        No se encontraron cursos con los filtros aplicados.
+    </div>
+}
