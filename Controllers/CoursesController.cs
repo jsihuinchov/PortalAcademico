@@ -45,22 +45,28 @@ namespace PortalAcademico.Controllers
         }
 
         // GET: Courses/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        // GET: Courses/Details/5
+public async Task<IActionResult> Details(int? id)
+{
+    if (id == null)
+    {
+        return NotFound();
+    }
 
-            var curso = await _context.Cursos
-                .FirstOrDefaultAsync(m => m.Id == id && m.Activo);
-                
-            if (curso == null)
-            {
-                return NotFound();
-            }
+    var curso = await _context.Cursos
+        .FirstOrDefaultAsync(m => m.Id == id && m.Activo);
+        
+    if (curso == null)
+    {
+        return NotFound();
+    }
 
-            return View(curso);
-        }
+    // ↓↓↓↓ ESTE CÓDIGO DEBE ESTAR AQUÍ ↓↓↓↓
+    HttpContext.Session.SetString("UltimoCursoVisitado", $"{curso.Codigo} - {curso.Nombre}");
+    HttpContext.Session.SetInt32("UltimoCursoId", curso.Id);
+    // ↑↑↑↑ ESTE CÓDIGO DEBE ESTAR AQUÍ ↑↑↑↑
+
+    return View(curso);
+}
     }
 }

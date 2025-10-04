@@ -15,6 +15,25 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+// ↓↓↓↓ CONFIGURACIÓN TEMPORAL - USAR MEMORYCACHE ↓↓↓↓
+// COMENTA Redis y usa MemoryCache para desarrollo:
+// builder.Services.AddStackExchangeRedisCache(options =>
+// {
+//     options.Configuration = builder.Configuration.GetConnectionString("Redis");
+//     options.InstanceName = "PortalAcademico_";
+// });
+
+builder.Services.AddDistributedMemoryCache(); // ← ESTA LÍNEA EN VEZ DE REDIS
+
+// PERO MANTÉN LAS SESIONES:
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
+// ↑↑↑↑ CONFIGURACIÓN TEMPORAL ↑↑↑↑
+
 var app = builder.Build();
 
 // ↓↓↓↓ VERIFICACIÓN DE DATOS - TEMPORAL ↓↓↓↓
@@ -66,11 +85,15 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();  // ← Esto es UseStaticFiles(), no MapStaticAssets()
+app.UseStaticFiles();
 app.UseRouting();
 
-app.UseAuthentication();  // ← ¡IMPORTANTE! UseAuthentication ANTES de UseAuthorization
+app.UseAuthentication();
 app.UseAuthorization();
+
+// ↓↓↓↓ AGREGAR SESIONES (DEBE IR AQUÍ) ↓↓↓↓
+app.UseSession();
+// ↑↑↑↑ AGREGAR SESIONES ↑↑↑↑
 
 app.MapControllerRoute(
     name: "default",

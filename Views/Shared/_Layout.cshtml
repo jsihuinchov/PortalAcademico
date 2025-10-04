@@ -29,6 +29,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <!-- MOSTRAR ÚLTIMO CURSO VISITADO -->
+@if (Context.Session.GetString("UltimoCursoVisitado") != null)
+{
+    <li class="nav-item">
+        <a class="nav-link text-info" href="@Url.Action("Details", "Courses", new { id = Context.Session.GetInt32("UltimoCursoId") })">
+            📚 Volver a: @Context.Session.GetString("UltimoCursoVisitado")
+        </a>
+    </li>
+}
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

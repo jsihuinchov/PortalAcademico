@@ -292,3 +292,6 @@ C:\PortalAcademico\PortalAcademico\obj\Debug\net9.0\PortalAcademico.pdb
 C:\PortalAcademico\PortalAcademico\obj\Debug\net9.0\PortalAcademico.genruntimeconfig.cache
 C:\PortalAcademico\PortalAcademico\obj\Debug\net9.0\ref\PortalAcademico.dll
 C:\PortalAcademico\PortalAcademico\bin\Debug\net9.0\System.Text.Json.dll
+C:\PortalAcademico\PortalAcademico\bin\Debug\net9.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+C:\PortalAcademico\PortalAcademico\bin\Debug\net9.0\Pipelines.Sockets.Unofficial.dll
+C:\PortalAcademico\PortalAcademico\bin\Debug\net9.0\StackExchange.Redis.dll
